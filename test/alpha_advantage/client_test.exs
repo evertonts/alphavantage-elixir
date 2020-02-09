@@ -13,7 +13,7 @@ defmodule AlphaAdvatage.ClientTest do
   end
 
   test "test" do
-    assert %{ "Global Quote" => %{ "01. symbol" => symbol, "05. price" => price } } = Client.get("GLOBAL_QUOTE", "MSFT")
+    assert %{ "Global Quote" => %{ "01. symbol" => symbol, "05. price" => price } } = Client.get!("GLOBAL_QUOTE", "MSFT")
     assert "MSFT" = symbol
     assert "183.8900" = price
   end
