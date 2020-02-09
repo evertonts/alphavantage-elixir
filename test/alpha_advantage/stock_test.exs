@@ -5,16 +5,30 @@ defmodule AlphaAdvantage.StockTest do
 
   alias AlphaAdvantage.{Stock, ClientBehavior, GlobalQuote}
 
-  test "test" do
-    defmock(MockClient, for: ClientBehavior)
+  describe "global_quote" do
+    test "it returns the formatted Alpha Advantage Global Quote" do
+      defmock(MockClient, for: ClientBehavior)
 
-    expect(MockClient, :get!, fn _, _ ->
-      %{ "Global Quote" => %{"01. symbol" => "MSFT", "05. price" => "183.8900" } }
-    end)
+      expect(MockClient, :get!, fn _, _ ->
+        %{"Global Quote" => %{"01. symbol" => "MSFT", "05. price" => "183.8900"}}
+      end)
 
-    assert %GlobalQuote{
-      symbol: "MSFT",
-      price: "183.8900"
-    } = Stock.global_quote(MockClient, "MSFT")
+      assert %GlobalQuote{
+               symbol: "MSFT",
+               price: "183.8900"
+             } = Stock.global_quote(MockClient, "MSFT")
+    end
+  end
+
+  describe "last_price" do
+    test "returns the last price for the given stock" do
+      defmock(MockClient, for: ClientBehavior)
+
+      expect(MockClient, :get!, fn _, _ ->
+        %{"Global Quote" => %{"05. price" => "183.8900"}}
+      end)
+
+      assert "183.8900" = Stock.last_price(MockClient, "MSFT")
+    end
   end
 end
