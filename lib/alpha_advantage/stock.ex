@@ -19,7 +19,7 @@ defmodule AlphaAdvantage.Stock do
 
   """
   def global_quote(client \\ Client, code) do
-    %{"Global Quote" => global_quote} = client.get!("GLOBAL_QUOTE", code)
+    %{"Global Quote" => global_quote} = client.get!("GLOBAL_QUOTE", "symbol=#{code}")
 
     %GlobalQuote{
       symbol: global_quote["01. symbol"],

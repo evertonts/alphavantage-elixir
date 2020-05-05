@@ -3,16 +3,23 @@ defmodule AlphaAdvantage do
   Documentation for `AlphaAdvantage`.
   """
 
-  @doc """
-  Hello world.
+  alias AlphaAdvantage.{Client, SymbolSearch}
 
-  ## Examples
+  def symbol_search(client \\ Client, code) do
+    %{"bestMatches" => matches} = client.get!("SYMBOL_SEARCH", "keywords=#{code}")
 
-      iex> AlphaAdvantage.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    Enum.map(matches, fn result ->
+      %SymbolSearch{
+        symbol: result["1. symbol"],
+        name: result["2. name"],
+        type: result["3. type"],
+        region: result["4. region"],
+        market_open: result["5. marketOpen"],
+        market_close: result["6. marketClose"],
+        timezone: result["7. timezone"],
+        currency: result["8. currency"],
+        matchScore: result["9. matchScore"]
+      }
+    end)
   end
 end

@@ -2,10 +2,10 @@ defmodule AlphaAdvantage.Client do
   @behaviour AlphaAdvantageClientBehavior
 
   @spec get!(String.t(), String.t()) :: Map.t()
-  def get!(function, symbol) do
+  def get!(function, params) do
     response =
       HTTPoison.get!(
-        "#{endpoint}/query?function=#{function}&symbol=#{symbol}&apikey=#{api_key()}"
+        "#{endpoint()}/query?function=#{function}&apikey=#{api_key()}&#{params}"
       )
 
     response.body
